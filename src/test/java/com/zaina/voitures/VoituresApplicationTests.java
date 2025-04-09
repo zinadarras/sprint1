@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 
+import com.zaina.voitures.entities.Marque;
 import com.zaina.voitures.entities.Voiture;
 import com.zaina.voitures.repos.VoitureRepository;
 import com.zaina.voitures.service.VoitureService;
@@ -62,13 +63,80 @@ class VoituresApplicationTests {
 	 System.out.println(voits.getTotalPages());
 	 voits.getContent().forEach(v -> {System.out.println(v.toString());
 	  });
-	 /*ou bien
-	 for (Produit p : prods)
-	 {
-	 System.out.println(p);
-	 } */
 	 }
 
+	 @Test
+		public void testFindByCouleur()
+		{
+		List<Voiture> voits = voitureRepository.findByCouleur("Rouge");
+		for (Voiture v : voits)
+		{
+		System.out.println(v);
+		}
+		}
+	 
+	 @Test
+		public void testFindByCouleurContains()
+		{
+		List<Voiture> voits = voitureRepository.findByCouleurContains("Gr");
+		for (Voiture v : voits)
+		{
+		System.out.println(v);
+		}
+		}
+	 
+	 @Test
+		public void testFindByCoulPrix()
+		{
+		List<Voiture> voits = voitureRepository.findByCoulPrix("Gris",30000.0);
+		for (Voiture v : voits)
+		{
+		System.out.println(v);
+		}
+		}
+	 
+	 @Test
+		public void testFindByMarque()
+		{
+		 Marque mar=new Marque();
+		 mar.setIdMarque(1L);
+		List<Voiture> voits = voitureRepository.findByMarque(mar);
+		for (Voiture v : voits)
+		{
+		System.out.println(v);
+		}
+		}
 	
+	 @Test
+		public void testFindByMarqueIdMarque()
+		{
+		List<Voiture> voits = voitureRepository.findByMarqueIdMarque(1L);
+		for (Voiture v : voits)
+		{
+		System.out.println(v);
+		}
+		}
+	 
+	 @Test
+		public void testfindByOrderByCouleurAsc()
+		{
+		List<Voiture> voits = voitureRepository.findByOrderByCouleurAsc();
+		for (Voiture v : voits)
+		{
+		System.out.println(v);
+		}
+		}
+	 
+	 @Test
+		public void testTrierVoiture()
+		{
+		List<Voiture> voits = voitureRepository.trierVoitures();
+		for (Voiture v : voits)
+		{
+		System.out.println(v);
+		}
+		}
+	 
 	
+	 
 	}

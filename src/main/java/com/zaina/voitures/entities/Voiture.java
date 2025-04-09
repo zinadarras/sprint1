@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 
 
 @Entity
@@ -18,6 +19,8 @@ public class Voiture {
 	private Double prixVoiture ;
 	private Date immDate;
 
+	@ManyToOne
+	private Marque marque;
 	
 	public Voiture() {
 		super();
@@ -66,6 +69,18 @@ public class Voiture {
 	}
 	public void setImmDate(Date immDate) {
 		this.immDate = immDate;
+	}
+
+
+
+	public Marque getMarque() {
+		return marque;
+	}
+
+
+
+	public void setMarque(Marque marque) {
+		this.marque = marque;
 	}
 	
 	

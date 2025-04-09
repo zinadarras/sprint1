@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 
 import com.zaina.voitures.entities.Voiture;
 import com.zaina.voitures.service.VoitureService;
@@ -16,15 +17,18 @@ public class VoituresApplication implements CommandLineRunner{
 	@Autowired
 	VoitureService voitureService;
 	
+	@Autowired
+	private RepositoryRestConfiguration repositoryRestConfiguration;
+	
 	public static void main(String[] args) {
 		SpringApplication.run(VoituresApplication.class, args);
 	}
 
 	@Override
 	public void run(String... args) throws Exception {
-		voitureService.saveVoiture(new Voiture("Blanc",70000.0,new Date()));	
-		voitureService.saveVoiture(new Voiture("Rouge",150000.0,new Date()));		
-		voitureService.saveVoiture(new Voiture("Gris",100000.0,new Date()));		
+	
+		repositoryRestConfiguration.exposeIdsFor(Voiture.class);
+
 
 	}
 

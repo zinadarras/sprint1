@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 
+import com.zaina.voitures.entities.Marque;
 import com.zaina.voitures.entities.Voiture;
 
 public interface VoitureService {
@@ -15,5 +16,14 @@ public interface VoitureService {
 	List<Voiture> getAllVoitures();
 	
 	Page<Voiture> getAllVoituresParPage(int page, int size);
+	
+	List<Voiture> findByCouleur(String couleur);
+	List<Voiture> findByCouleurContains(String couleur);
+	List<Voiture> findByCouleurPrix (String couleur, Double prix);
+	List<Voiture> findByMarque (Marque marque);
+	List<Voiture> findByMarqueIdMar(Long id);
+	List<Voiture> findByOrderByCouleurAsc();
+	List<Voiture> trierVoitures();
+
 
 }

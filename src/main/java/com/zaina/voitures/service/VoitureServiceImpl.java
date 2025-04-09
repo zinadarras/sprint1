@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import com.zaina.voitures.entities.Marque;
 import com.zaina.voitures.entities.Voiture;
 import com.zaina.voitures.repos.VoitureRepository;
 
@@ -52,6 +53,41 @@ public class VoitureServiceImpl implements VoitureService{
 	public Page<Voiture> getAllVoituresParPage(int page, int size) {
 		return voitureRepository.findAll(PageRequest.of(page, size));
 
+	}
+
+	@Override
+	public List<Voiture> findByCouleur(String couleur) {
+		return voitureRepository.findByCouleur(couleur);
+	}
+
+	@Override
+	public List<Voiture> findByCouleurContains(String couleur) {
+		return voitureRepository.findByCouleurContains(couleur);
+	}
+
+	@Override
+	public List<Voiture> findByCouleurPrix(String couleur, Double prix) {
+		return voitureRepository.findByCoulPrix(couleur, prix);
+	}
+
+	@Override
+	public List<Voiture> findByMarque(Marque marque) {
+		return voitureRepository.findByMarque(marque);
+	}
+
+	@Override
+	public List<Voiture> findByMarqueIdMar(Long id) {
+		return voitureRepository.findByMarqueIdMarque(id);
+	}
+
+	@Override
+	public List<Voiture> findByOrderByCouleurAsc() {
+		return voitureRepository.findByOrderByCouleurAsc();
+	}
+
+	@Override
+	public List<Voiture> trierVoitures() {
+		return voitureRepository.trierVoitures();
 	}
 	
 	
