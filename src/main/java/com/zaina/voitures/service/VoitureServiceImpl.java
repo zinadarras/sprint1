@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.zaina.voitures.entities.Marque;
 import com.zaina.voitures.entities.Voiture;
+import com.zaina.voitures.repos.MarqueRepository;
 import com.zaina.voitures.repos.VoitureRepository;
 
 
@@ -17,6 +18,9 @@ public class VoitureServiceImpl implements VoitureService{
 
 	@Autowired
 	VoitureRepository voitureRepository;
+	
+	@Autowired
+	MarqueRepository marqueRepository;
 	
 	@Override
 	public Voiture saveVoiture(Voiture v) {
@@ -90,7 +94,10 @@ public class VoitureServiceImpl implements VoitureService{
 		return voitureRepository.trierVoitures();
 	}
 	
-	
+	@Override
+	public List<Marque> getAllMarques() {
+		return marqueRepository.findAll();
+	}
 	
 
 }

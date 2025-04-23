@@ -9,18 +9,34 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.zaina.voitures.entities.Marque;
 import com.zaina.voitures.entities.Voiture;
 import com.zaina.voitures.service.VoitureService;
+
+import jakarta.validation.Valid;
 
 @Controller
 public class VoitureController {
 
 	@Autowired
 	VoitureService voitureService;
+	
+	@GetMapping("/accessDenied")
+	public String error()
+	{
+	return "accessDenied";
+	}
+	
+	@GetMapping(value = "/")
+	public String welcome() {
+	 return "index";
+	}
 
 	@RequestMapping("/ListeVoitures")
 	public String listeVoitures(ModelMap modelMap,
@@ -38,22 +54,35 @@ public class VoitureController {
 	}
 
 	@RequestMapping("/showCreate")
-	public String showCreate() {
-		return "createVoiture";
+	public String showCreate(ModelMap modelMap) {
+		List<Marque> mar = voitureService.getAllMarques();
+		modelMap.addAttribute("voiture", new Voiture());
+		modelMap.addAttribute("mode", "new");
+		modelMap.addAttribute("marques", mar);
+		return "formVoiture";
 	}
 
 	@RequestMapping("/saveVoiture")
-	public String saveVoiture(@ModelAttribute("voiture") Voiture voiture, @RequestParam("date") String date,
-			ModelMap modelMap) throws ParseException {
-		// conversion de la date
-		SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
-		Date dateCreation = dateformat.parse(String.valueOf(date));
-		voiture.setImmDate(dateCreation);
-
-		Voiture saveVoiture = voitureService.saveVoiture(voiture);
-		String msg = "voiture enregistré avec Id " + saveVoiture.getIdVoiture();
-		modelMap.addAttribute("msg", msg);
-		return "createVoiture";
+	public String saveVoiture(@Valid Voiture voiture , BindingResult bindingResult, @RequestParam (name="page",defaultValue = "0") int page,
+			@RequestParam (name="size", defaultValue = "3") int size)
+	{
+		int currentPage;
+		boolean isNew=false;
+		
+		if (bindingResult.hasErrors()) return "formVoiture";
+		if(voiture.getIdVoiture()==null)//ajout
+			isNew=true;
+			
+	 voitureService.saveVoiture(voiture);
+	 if (isNew)  //ajout 
+		 {
+		 Page<Voiture> voits = voitureService.getAllVoituresParPage(page,size);
+		 currentPage=voits.getTotalPages()-1;
+	 }
+	 else//modif
+		 currentPage=page;
+	//return "formVoiture";
+	 return ("redirect:/ListeVoitures?page="+currentPage+"&size="+size);
 	}
 
 	@RequestMapping("/supprimerVoiture")
@@ -69,10 +98,16 @@ public class VoitureController {
 	}
 
 	@RequestMapping("/modifierVoiture")
-	public String editerVoiture(@RequestParam("id") Long id, ModelMap modelMap) {
+	public String editerVoiture(@RequestParam("id") Long id, ModelMap modelMap , @RequestParam (name="page",defaultValue = "0") int page,
+			@RequestParam (name="size", defaultValue = "3") int size) {
+		List<Marque> mar = voitureService.getAllMarques();
 		Voiture v = voitureService.getVoiture(id);
 		modelMap.addAttribute("voiture", v);
-		return "editerVoiture";
+		modelMap.addAttribute("mode", "edit");
+		modelMap.addAttribute("marques", mar);
+		modelMap.addAttribute("currentPage", page);
+		modelMap.addAttribute("size", size);
+		return "formVoiture";
 	}
 
 	@RequestMapping("/updateVoiture")

@@ -24,6 +24,7 @@ public interface VoitureService {
 	List<Voiture> findByMarqueIdMar(Long id);
 	List<Voiture> findByOrderByCouleurAsc();
 	List<Voiture> trierVoitures();
+	List <Marque> getAllMarques();
 
 
 }
