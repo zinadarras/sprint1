@@ -4,16 +4,20 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 
+import com.zaina.voitures.DTO.VoitureDTO;
 import com.zaina.voitures.entities.Marque;
 import com.zaina.voitures.entities.Voiture;
 
 public interface VoitureService {
-	Voiture saveVoiture(Voiture v);
-	Voiture updateVoiture(Voiture v);
+	
+	VoitureDTO saveVoiture(VoitureDTO v);
+	VoitureDTO getVoiture(Long id);
+	List<VoitureDTO> getAllVoitures();
+	
+	VoitureDTO updateVoiture(VoitureDTO v);
 	void deleteVoiture(Voiture v);
 	void deleteVoitureById(Long id);
-	Voiture getVoiture(Long id);
-	List<Voiture> getAllVoitures();
+	
 	
 	Page<Voiture> getAllVoituresParPage(int page, int size);
 	
@@ -25,6 +29,9 @@ public interface VoitureService {
 	List<Voiture> findByOrderByCouleurAsc();
 	List<Voiture> trierVoitures();
 	List <Marque> getAllMarques();
+	
 
+	VoitureDTO convertEntityToDTO(Voiture v);
+	Voiture convertDTOToEntity(VoitureDTO voitureDTO);
 
 }

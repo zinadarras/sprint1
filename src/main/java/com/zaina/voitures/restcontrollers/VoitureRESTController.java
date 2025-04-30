@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.zaina.voitures.DTO.VoitureDTO;
 import com.zaina.voitures.entities.Voiture;
 import com.zaina.voitures.service.VoitureService;
 
@@ -22,21 +23,21 @@ public class VoitureRESTController {
 	VoitureService voitureService;
 	
 	@RequestMapping(method=RequestMethod.GET)
-	public List<Voiture> getAllVoitures(){
+	public List<VoitureDTO> getAllVoitures(){
 		return voitureService.getAllVoitures();		
 	}
 	
 	@RequestMapping(value="/{id}",method = RequestMethod.GET)
-	public Voiture getVoitureById(@PathVariable("id") Long id) {
+	public VoitureDTO getVoitureById(@PathVariable("id") Long id) {
 		return voitureService.getVoiture(id);
 	 }
 	
 	@RequestMapping(method = RequestMethod.POST)
-	public Voiture createVoiture(@RequestBody Voiture voiture) {
+	public VoitureDTO createVoiture(@RequestBody VoitureDTO voiture) {
 		return voitureService.saveVoiture(voiture);
 	}
 	@RequestMapping(method = RequestMethod.PUT)
-	public Voiture updateVoiture(@RequestBody Voiture voiture) {
+	public VoitureDTO updateVoiture(@RequestBody VoitureDTO voiture) {
 		return voitureService.updateVoiture(voiture);
 	}
 	
